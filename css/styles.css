@@ -1,0 +1,24 @@
+* {
+    margin: 0; padding: 0;
+}
+
+svg {
+    display: block;
+}
+
+svg rect {
+     fill: #fff;
+}
+
+svg text {
+    font-family: 'Helvetica', sans-serif;
+    font-size: 4vw;
+    fill: #333;
+    cursor: default;
+}
+
+svg path {
+    fill: none;
+    stroke: #333;
+    stroke-width: 2;
+}
