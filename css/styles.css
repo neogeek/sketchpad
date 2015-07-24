@@ -7,7 +7,7 @@ svg {
 }
 
 svg rect {
-     fill: #fff;
+    fill: #fff;
 }
 
 svg text {
@@ -19,6 +19,6 @@ svg text {
 
 svg path {
     fill: none;
-    stroke: #333;
+    stroke: #0064FF;
     stroke-width: 2;
 }
