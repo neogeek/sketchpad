@@ -40,6 +40,9 @@
         coords = 'M' + e.pageX + ' ' + e.pageY;
 
         path.setAttribute('d', coords);
+        path.setAttribute('fill', 'none');
+        path.setAttribute('stroke', '#0064FF');
+        path.setAttribute('stroke-width', 2);
 
         svg.addEventListener('mousemove', handleDrawMove);
         svg.addEventListener('touchmove', handleDrawMove);
