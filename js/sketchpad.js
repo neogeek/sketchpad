@@ -1,17 +1,7 @@
-const lineWidthDecreaseButton = document.querySelector('#lineWidthDecrease');
-const lineWidthSpan = document.querySelector('#lineWidth');
-const lineWidthIncreaseButton = document.querySelector('#lineWidthIncrease');
-const lineColorInput = document.querySelector('#lineColor');
-const undoButton = document.querySelector('#undo');
-
-const svg = document.querySelector('svg');
-
 const defaultLineColor = '#0064FF';
 
 const minLineWidth = 2;
 const maxLineWidth = 20;
-
-const history = [];
 
 const config = {
     _lineColor: localStorage.getItem('lineColor') || defaultLineColor,
@@ -38,11 +28,9 @@ const config = {
     }
 };
 
-lineWidthSpan.innerText = config.lineWidth;
+const history = [];
 
-lineColorInput.value = config.lineColor;
-
-const handleDrawMove = e => {
+const inputMoveEvent = e => {
     const item = history[history.length - 1];
 
     item.coords = `${item.coords} L${e.offsetX} ${e.offsetY}`;
@@ -50,7 +38,7 @@ const handleDrawMove = e => {
     item.path.setAttribute('d', item.coords);
 };
 
-svg.addEventListener('mousedown', e => {
+const inputDownEvent = e => {
     e.preventDefault();
 
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -66,31 +54,10 @@ svg.addEventListener('mousedown', e => {
     path.setAttribute('stroke', config.lineColor);
     path.setAttribute('stroke-width', config.lineWidth);
 
-    e.currentTarget.addEventListener('mousemove', handleDrawMove);
-});
+    e.currentTarget.addEventListener('mousemove', inputMoveEvent);
+};
 
-svg.addEventListener('mouseup', e => {
+const inputUpEvent = e => {
     e.preventDefault();
-    e.currentTarget.removeEventListener('mousemove', handleDrawMove);
-});
-
-lineWidthDecreaseButton.addEventListener('click', () => {
-    config.lineWidth -= 1;
-    lineWidthSpan.innerText = config.lineWidth;
-});
-
-lineWidthIncreaseButton.addEventListener('click', () => {
-    config.lineWidth += 1;
-    lineWidthSpan.innerText = config.lineWidth;
-});
-
-lineColorInput.addEventListener(
-    'change',
-    e => (config.lineColor = e.target.value)
-);
-
-undoButton.addEventListener('click', () => {
-    const item = history.pop();
-
-    svg.removeChild(item.path);
-});
+    e.currentTarget.removeEventListener('mousemove', inputMoveEvent);
+};
