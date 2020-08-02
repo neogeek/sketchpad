@@ -1,71 +1,96 @@
-(function () {
-    'use strict';
+const lineWidthDecreaseButton = document.querySelector('#lineWidthDecrease');
+const lineWidthSpan = document.querySelector('#lineWidth');
+const lineWidthIncreaseButton = document.querySelector('#lineWidthIncrease');
+const lineColorInput = document.querySelector('#lineColor');
+const undoButton = document.querySelector('#undo');
 
-    const svg = document.querySelector('svg');
-    const label = svg.querySelector('text');
-    const path = null;
-    const coords = null;
+const svg = document.querySelector('svg');
 
-    function handleDrawMove(e) {
-        e.preventDefault();
+const defaultLineColor = '#0064FF';
 
-        if (e.touches) {
-            e = e.touches[0];
-        }
+const minLineWidth = 2;
+const maxLineWidth = 20;
 
-        coords += ' L' + e.pageX + ' ' + e.pageY;
+const history = [];
 
-        path.setAttribute('d', coords);
+const config = {
+    _lineColor: localStorage.getItem('lineColor') || defaultLineColor,
+    get lineColor() {
+        return this._lineColor;
+    },
+    set lineColor(value) {
+        this._lineColor = value;
+
+        localStorage.setItem('lineColor', this._lineColor);
+
+        return this._lineColor;
+    },
+    _lineWidth: parseInt(localStorage.getItem('lineWidth'), 10) || minLineWidth,
+    get lineWidth() {
+        return this._lineWidth;
+    },
+    set lineWidth(value) {
+        this._lineWidth = Math.min(Math.max(value, minLineWidth), maxLineWidth);
+
+        localStorage.setItem('lineWidth', this._lineWidth);
+
+        return this._lineWidth;
     }
+};
 
-    function handleDrawStart(e) {
-        e.preventDefault();
+lineWidthSpan.innerText = config.lineWidth;
 
-        if (e.touches) {
-            e = e.touches[0];
-        }
+lineColorInput.value = config.lineColor;
 
-        if (label) {
-            svg.removeChild(label);
+const handleDrawMove = e => {
+    const item = history[history.length - 1];
 
-            label = null;
-        }
+    item.coords = `${item.coords} L${e.offsetX} ${e.offsetY}`;
 
-        path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    item.path.setAttribute('d', item.coords);
+};
 
-        svg.appendChild(path);
+svg.addEventListener('mousedown', e => {
+    e.preventDefault();
 
-        coords = 'M' + e.pageX + ' ' + e.pageY;
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
 
-        path.setAttribute('d', coords);
-        path.setAttribute('fill', 'none');
-        path.setAttribute('stroke', '#0064FF');
-        path.setAttribute('stroke-width', 2);
+    const coords = `M${e.offsetX} ${e.offsetY}`;
 
-        svg.addEventListener('mousemove', handleDrawMove);
-        svg.addEventListener('touchmove', handleDrawMove);
-    }
+    history[history.length] = { path, coords };
 
-    function handleDrawEnd() {
-        path = null;
-        coords = null;
+    svg.appendChild(path);
 
-        svg.removeEventListener('mousemove', handleDrawMove);
-        svg.removeEventListener('touchmove', handleDrawMove);
-    }
+    path.setAttribute('d', coords);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', config.lineColor);
+    path.setAttribute('stroke-width', config.lineWidth);
 
-    function handleResize() {
-        svg.setAttribute('width', window.innerWidth);
-        svg.setAttribute('height', window.innerHeight);
-    }
+    svg.addEventListener('mousemove', handleDrawMove);
+});
 
-    handleResize();
+svg.addEventListener('mouseup', e => {
+    e.preventDefault();
+    svg.removeEventListener('mousemove', handleDrawMove);
+});
 
-    svg.addEventListener('mousedown', handleDrawStart);
-    svg.addEventListener('touchstart', handleDrawStart);
+lineWidthDecreaseButton.addEventListener('click', () => {
+    config.lineWidth -= 1;
+    lineWidthSpan.innerText = config.lineWidth;
+});
 
-    svg.addEventListener('mouseup', handleDrawEnd);
-    svg.addEventListener('touchend', handleDrawEnd);
+lineWidthIncreaseButton.addEventListener('click', () => {
+    config.lineWidth += 1;
+    lineWidthSpan.innerText = config.lineWidth;
+});
 
-    window.addEventListener('resize', handleResize);
-})();
+lineColorInput.addEventListener(
+    'change',
+    e => (config.lineColor = e.target.value)
+);
+
+undoButton.addEventListener('click', () => {
+    const item = history.pop();
+
+    svg.removeChild(item.path);
+});

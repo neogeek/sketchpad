@@ -8,11 +8,18 @@
     </head>
 
     <body>
-        <svg>
-            <rect width="100%" height="100%" fill="#fff"></rect>
-            <text x="50%" y="50%" text-anchor="middle">Start drawing!</text>
-        </svg>
-
+        <div class="wrapper">
+            <header>
+                <button id="lineWidthDecrease">-</button>
+                <span id="lineWidth">0</span>
+                <button id="lineWidthIncrease">+</button>
+                <input type="color" id="lineColor" />
+                <button id="undo">undo</button>
+            </header>
+            <svg width="1000" height="1000">
+                <rect width="100%" height="100%" fill="#eee"></rect>
+            </svg>
+        </div>
         <script src="./js/sketchpad.js"></script>
     </body>
 </html>
