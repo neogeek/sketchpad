@@ -59,19 +59,19 @@ svg.addEventListener('mousedown', e => {
 
     history[history.length] = { path, coords };
 
-    svg.appendChild(path);
+    e.currentTarget.appendChild(path);
 
     path.setAttribute('d', coords);
     path.setAttribute('fill', 'none');
     path.setAttribute('stroke', config.lineColor);
     path.setAttribute('stroke-width', config.lineWidth);
 
-    svg.addEventListener('mousemove', handleDrawMove);
+    e.currentTarget.addEventListener('mousemove', handleDrawMove);
 });
 
 svg.addEventListener('mouseup', e => {
     e.preventDefault();
-    svg.removeEventListener('mousemove', handleDrawMove);
+    e.currentTarget.removeEventListener('mousemove', handleDrawMove);
 });
 
 lineWidthDecreaseButton.addEventListener('click', () => {
