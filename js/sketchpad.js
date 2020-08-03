@@ -31,6 +31,10 @@ export const config = {
 export const history = [];
 
 export const inputMoveEvent = e => {
+    if (e.touches && e.touches.length > 1) {
+        return;
+    }
+
     e.preventDefault();
 
     if (e.touches) {
@@ -51,6 +55,10 @@ export const inputMoveEvent = e => {
 };
 
 export const inputDownEvent = e => {
+    if (e.touches && e.touches.length > 1) {
+        return;
+    }
+
     e.preventDefault();
 
     if (e.touches) {
