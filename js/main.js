@@ -1,4 +1,9 @@
-import { config, history, inputDownEvent, inputUpEvent } from './sketchpad.js';
+import {
+    config,
+    history,
+    inputDownEvent,
+    inputUpEvent
+} from 'https://unpkg.com/drawtheline@1.0.0/index.js';
 
 const lineWidthDecreaseButton = document.querySelector('#lineWidthDecrease');
 const lineWidthSpan = document.querySelector('#lineWidth');
