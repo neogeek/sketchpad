@@ -18,12 +18,16 @@ svg.addEventListener('touchstart', inputDownEvent);
 svg.addEventListener('mouseup', inputUpEvent);
 svg.addEventListener('touchend', inputUpEvent);
 
-lineWidthDecreaseButton.addEventListener('click', () => {
+lineWidthDecreaseButton.addEventListener('click', e => {
+    e.preventDefault();
+
     config.lineWidth -= 1;
     lineWidthSpan.innerText = config.lineWidth;
 });
 
-lineWidthIncreaseButton.addEventListener('click', () => {
+lineWidthIncreaseButton.addEventListener('click', e => {
+    e.preventDefault();
+
     config.lineWidth += 1;
     lineWidthSpan.innerText = config.lineWidth;
 });
@@ -33,7 +37,9 @@ lineColorInput.addEventListener(
     e => (config.lineColor = e.target.value)
 );
 
-undoButton.addEventListener('click', () => {
+undoButton.addEventListener('click', e => {
+    e.preventDefault();
+
     const item = history.pop();
 
     if (item) {
