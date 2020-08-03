@@ -13,8 +13,10 @@ lineWidthSpan.innerText = config.lineWidth;
 lineColorInput.value = config.lineColor;
 
 svg.addEventListener('mousedown', inputDownEvent);
+svg.addEventListener('touchstart', inputDownEvent);
 
 svg.addEventListener('mouseup', inputUpEvent);
+svg.addEventListener('touchend', inputUpEvent);
 
 lineWidthDecreaseButton.addEventListener('click', () => {
     config.lineWidth -= 1;

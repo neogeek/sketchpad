@@ -31,9 +31,21 @@ export const config = {
 export const history = [];
 
 export const inputMoveEvent = e => {
+    e.preventDefault();
+
+    if (e.touches) {
+        e = e.touches[0];
+    }
+
+    const svg = e.target.closest('svg');
+
+    const { top, left } = svg.getBoundingClientRect();
+
     const item = history[history.length - 1];
 
-    item.coords = `${item.coords} L${e.offsetX} ${e.offsetY}`;
+    item.coords = `${item.coords} L${e.pageX - (left + window.pageXOffset)} ${
+        e.pageY - (top + window.pageYOffset)
+    }`;
 
     item.path.setAttribute('d', item.coords);
 };
@@ -41,23 +53,38 @@ export const inputMoveEvent = e => {
 export const inputDownEvent = e => {
     e.preventDefault();
 
+    if (e.touches) {
+        e = e.touches[0];
+    }
+
+    const svg = e.target.closest('svg');
+
+    const { top, left } = svg.getBoundingClientRect();
+
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
 
-    const coords = `M${e.offsetX} ${e.offsetY}`;
+    const coords = `M${e.pageX - (left + window.pageXOffset)} ${
+        e.pageY - (top + window.pageYOffset)
+    }`;
 
     history[history.length] = { path, coords };
 
-    e.currentTarget.appendChild(path);
+    svg.appendChild(path);
 
     path.setAttribute('d', coords);
     path.setAttribute('fill', 'none');
     path.setAttribute('stroke', config.lineColor);
     path.setAttribute('stroke-width', config.lineWidth);
 
-    e.currentTarget.addEventListener('mousemove', inputMoveEvent);
+    svg.addEventListener('mousemove', inputMoveEvent);
+    svg.addEventListener('touchmove', inputMoveEvent);
 };
 
 export const inputUpEvent = e => {
     e.preventDefault();
-    e.currentTarget.removeEventListener('mousemove', inputMoveEvent);
+
+    const svg = e.target.closest('svg');
+
+    svg.removeEventListener('mousemove', inputMoveEvent);
+    svg.removeEventListener('touchmove', inputMoveEvent);
 };
