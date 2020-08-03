@@ -1,4 +1,4 @@
-import { config, inputDownEvent, inputUpEvent } from './sketchpad.js';
+import { config, history, inputDownEvent, inputUpEvent } from './sketchpad.js';
 
 const lineWidthDecreaseButton = document.querySelector('#lineWidthDecrease');
 const lineWidthSpan = document.querySelector('#lineWidth');
@@ -36,5 +36,7 @@ lineColorInput.addEventListener(
 undoButton.addEventListener('click', () => {
     const item = history.pop();
 
-    svg.removeChild(item.path);
+    if (item) {
+        svg.removeChild(item.path);
+    }
 });
