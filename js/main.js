@@ -1,3 +1,5 @@
+import { config, inputDownEvent, inputUpEvent } from './sketchpad.js';
+
 const lineWidthDecreaseButton = document.querySelector('#lineWidthDecrease');
 const lineWidthSpan = document.querySelector('#lineWidth');
 const lineWidthIncreaseButton = document.querySelector('#lineWidthIncrease');

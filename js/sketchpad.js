@@ -3,7 +3,7 @@ const defaultLineColor = '#0064FF';
 const minLineWidth = 2;
 const maxLineWidth = 20;
 
-const config = {
+export const config = {
     _lineColor: localStorage.getItem('lineColor') || defaultLineColor,
     get lineColor() {
         return this._lineColor;
@@ -28,9 +28,9 @@ const config = {
     }
 };
 
-const history = [];
+export const history = [];
 
-const inputMoveEvent = e => {
+export const inputMoveEvent = e => {
     const item = history[history.length - 1];
 
     item.coords = `${item.coords} L${e.offsetX} ${e.offsetY}`;
@@ -38,7 +38,7 @@ const inputMoveEvent = e => {
     item.path.setAttribute('d', item.coords);
 };
 
-const inputDownEvent = e => {
+export const inputDownEvent = e => {
     e.preventDefault();
 
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -57,7 +57,7 @@ const inputDownEvent = e => {
     e.currentTarget.addEventListener('mousemove', inputMoveEvent);
 };
 
-const inputUpEvent = e => {
+export const inputUpEvent = e => {
     e.preventDefault();
     e.currentTarget.removeEventListener('mousemove', inputMoveEvent);
 };
