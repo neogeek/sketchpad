@@ -10,6 +10,8 @@ const lineWidthSpan = document.querySelector('#lineWidth');
 const lineWidthIncreaseButton = document.querySelector('#lineWidthIncrease');
 const lineColorInput = document.querySelector('#lineColor');
 const undoButton = document.querySelector('#undo');
+const downloadButton = document.querySelector('#downloadButton');
+const downloadLink = document.querySelector('#downloadLink');
 
 const svg = document.querySelector('svg');
 
@@ -50,4 +52,43 @@ undoButton.addEventListener('click', e => {
     if (item) {
         svg.removeChild(item.path);
     }
+});
+
+downloadButton.addEventListener('click', e => {
+    var url = URL.createObjectURL(
+        new Blob([svg.outerHTML], { type: 'image/svg+xml' })
+    );
+
+    var anchor = document.createElement('a');
+    anchor.setAttribute('href', url);
+    anchor.setAttribute('download', 'drawing.svg');
+
+    document.body.appendChild(anchor);
+
+    anchor.click();
+
+    document.body.removeChild(anchor);
+
+    URL.revokeObjectURL(url);
+});
+
+undoButton.addEventListener('mouseup', () => {
+    downloadLink.setAttribute(
+        'href',
+        `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg.outerHTML)}`
+    );
+});
+
+svg.addEventListener('mouseup', () => {
+    downloadLink.setAttribute(
+        'href',
+        `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg.outerHTML)}`
+    );
+});
+
+svg.addEventListener('touchend', () => {
+    downloadLink.setAttribute(
+        'href',
+        `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg.outerHTML)}`
+    );
 });
