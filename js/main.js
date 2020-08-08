@@ -3,7 +3,7 @@ import {
     history,
     inputDownEvent,
     inputUpEvent
-} from 'https://unpkg.com/drawtheline@1.0.0/index.js';
+} from 'https://unpkg.com/drawtheline@1.1.0/index.js';
 
 const lineWidthDecreaseButton = document.querySelector('#lineWidthDecrease');
 const lineWidthSpan = document.querySelector('#lineWidth');
