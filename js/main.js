@@ -1,4 +1,5 @@
 import {
+    clear,
     config,
     history,
     inputDownEvent
@@ -9,6 +10,7 @@ const lineWidthSpan = document.querySelector('#lineWidth');
 const lineWidthIncreaseButton = document.querySelector('#lineWidthIncrease');
 const lineColorInput = document.querySelector('#lineColor');
 const undoButton = document.querySelector('#undo');
+const clearButton = document.querySelector('#clear');
 const downloadButton = document.querySelector('#downloadButton');
 const downloadLink = document.querySelector('#downloadLink');
 
@@ -45,9 +47,11 @@ undoButton.addEventListener('click', e => {
 
     const item = history.pop();
 
-    if (item) {
-        svg.removeChild(item.path);
-    }
+    svg.innerHTML = history.last();
+});
+
+clearButton.addEventListener('click', e => {
+    clear(svg);
 });
 
 downloadButton.addEventListener('click', e => {
@@ -88,3 +92,5 @@ svg.addEventListener('touchend', () => {
         `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg.outerHTML)}`
     );
 });
+
+svg.innerHTML = history.last();
