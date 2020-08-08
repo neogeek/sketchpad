@@ -1,8 +1,7 @@
 import {
     config,
     history,
-    inputDownEvent,
-    inputUpEvent
+    inputDownEvent
 } from 'https://unpkg.com/drawtheline@1.1.0/index.js';
 
 const lineWidthDecreaseButton = document.querySelector('#lineWidthDecrease');
@@ -21,9 +20,6 @@ lineColorInput.value = config.lineColor;
 
 svg.addEventListener('mousedown', inputDownEvent);
 svg.addEventListener('touchstart', inputDownEvent);
-
-svg.addEventListener('mouseup', inputUpEvent);
-svg.addEventListener('touchend', inputUpEvent);
 
 lineWidthDecreaseButton.addEventListener('click', e => {
     e.preventDefault();
