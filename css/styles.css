@@ -44,6 +44,7 @@ svg {
     margin: 1rem;
     display: block;
     flex: 1;
+    background-color: #eee;
 }
 
 svg text {
