@@ -5,7 +5,7 @@ import {
     inputDownEvent
 } from 'https://unpkg.com/drawtheline@1.1.0/index.js';
 
-import slowreveal from 'https://unpkg.com/slowreveal@1.1.0/index.js';
+import slowreveal from 'https://unpkg.com/slowreveal@1.2.0/index.js';
 
 const lineWidthDecreaseButton = document.querySelector('#lineWidthDecrease');
 const lineWidthSpan = document.querySelector('#lineWidth');
